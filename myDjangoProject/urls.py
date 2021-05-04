@@ -14,9 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
-""" Map URLs to certain locations """
+""" 
+    Map URLs to certain locations 
+    - When we go to '.../todoList' it gets mapped to 'todoList.urls' 
+    - When Django matches a path pattern it chops off the matched part and sends remaining string to the included urls module for further processing
+    - '' (empty path) is also homepage
+"""
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('todoList.urls')),
+    path('index/', include('todoList.urls'))
 ]
+
+"""path('todoList/', include('todoList.urls'))"""
