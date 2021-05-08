@@ -1,0 +1,23 @@
+/* General styling */
+
+.right-col {
+    margin-top: 100px;
+
+}
+
+
+@media only screen and (min-width: 700px) {
+    .right-col {
+        margin-left: 200px;
+        margin-top: 50px;
+        margin-right: 20px;
+    }
+
+}
+
+.impressum{
+    border-radius: 15px;
+    background: #ADE8F4;
+    min-width: 400px;
+    font-size: 15px;
+}
