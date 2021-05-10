@@ -1,0 +1,50 @@
+{% extends "todoList/base.html" %}
+
+<!-- title of the page-->
+{% block pageTitle %}
+    Add New ToDo
+{% endblock pageTitle %}
+
+<!-- active page in nav-bar -->
+{% block navbar_class-addToDo %}active{% endblock %}
+
+{% block pageContent %}
+<div class="col right-col">
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <h1>Add a New ToDo!</h1>
+        </div>
+    </div>
+    <div class="flex-row align-items-center border p-4 add-todo">
+        <form method="post">
+        {% csrf_token %}
+            <div class="mb-3">
+              <label for="ToDo-Description" class="form-label">Description</label>
+              <input type="text" class="form-control" id="ToDo-Description" name="description" required>
+              <div id="descriptionHelp" class="form-text">Write a short description for your ToDo</div>
+            </div>
+            <div class="mb-3">
+              <label for="deadline" class="form-label">Deadline</label>
+              <input type="date" class="form-control" id="deadline" name="deadline" required>
+              <div id="date" class="form-text">Choose a deadline</div>
+            </div>
+        <!-- percent box  -->
+            <div class="mb-3">
+              <label for="Percentage" class="form-label">Percentage</label>
+              <input type="number" class="form-control" id="Percentage" name="percent" max="100" min="0"required>
+              <div id="Percentage1" class="form-text">Type in the Percentage of the task you have done</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add new Todo!</button>
+        <!-- a message display to see if the todo is saved to the db -->
+            {% if messages %}
+            {% for message in messages %}
+               <h2 style="color: green">  {{ message }} </h2>
+            {% endfor %}
+            {% endif %}
+
+
+
+          </form>
+    </div>
+</div>
+{% endblock pageContent %}
