@@ -2,7 +2,7 @@
 
 <!-- title of the page-->
 {% block pageTitle %}
-    Todo App
+Todo App
 {% endblock pageTitle %}
 
 <!-- active page in nav-bar -->
@@ -11,28 +11,31 @@
 
 {% block pageContent %}
 <div class="col right-col">
-        <div class="row">
-            <div class="d-flex justify-content-center">
-                <h1>What do I have to do?</h1>
-            </div>
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <h1>What do I have to do?</h1>
         </div>
+    </div>
 
-        {% for todo in todos %}
-        <div class="container-sm todo-container border mt-3 mb-3">
-            <div class="d-flex flex-row align-items-center">
-                <div class="ml-auto d-flex flex-column">
-                    <div class="mb-3 mt-3 todo-text">
-                        {{ todo.description}}
-                    </div>
-                    <div class="todo-deadline">{{ todo.deadline }}</div>
+    {% for todo in todos %}
+    <div class="container-sm todo-container border mt-3 mb-3">
+        <div class="d-flex flex-row align-items-center">
+            <div class="ml-auto d-flex flex-column">
+                <div class="mb-3 mt-3 todo-text">
+                    {{ todo.description}}
                 </div>
-                <div class="ms-auto d-flex flex-row align-items-center">
-                    <div class="todo-progress m-3 "> {{ todo.percentage }}% </div>
-                    <button type="button" class=" m-3 btn btn-md btn-danger">Delete</button>
-                    <button type="button" class="m-3 btn btn-md btn-info">Edit</button>
-                </div>
+                <div class="todo-deadline">{{ todo.deadline }}</div>
+            </div>
+            <div class="ms-auto d-flex flex-row align-items-center">
+                <div class="todo-progress m-3 "> {{ todo.percent }}% </div>
+                <form method="POST" action="{% url 'todoList-indexDelete' todo.id %}">
+                    <!-- no idea what this token thing does but needed ... --> {% csrf_token %}
+                    <button type="submit" class=" m-3 btn btn-md btn-danger" value="Delete">Delete</button>
+                    <button type="button" class="m-3 btn btn-md btn-info" value="Edit">Edit</button>
+                </form>
             </div>
         </div>
-        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 {% endblock pageContent %}
