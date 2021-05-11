@@ -27,5 +27,3 @@ urlpatterns = [
     path('', include('todoList.urls')),
     path('index/', include('todoList.urls'))
 ]
-
-"""path('todoList/', include('todoList.urls'))"""

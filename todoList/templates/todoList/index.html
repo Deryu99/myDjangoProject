@@ -8,7 +8,6 @@ Todo App
 <!-- active page in nav-bar -->
 {% block navbar_class-index %}active{% endblock %}
 
-
 {% block pageContent %}
 <div class="col right-col">
     <div class="row">
@@ -19,19 +18,28 @@ Todo App
 
     {% for todo in todos %}
     <div class="container-sm todo-container border mt-3 mb-3">
-        <div class="d-flex flex-row align-items-center">
+        <div id="{{ todo.id }}" class="d-flex flex-row align-items-center">
             <div class="ml-auto d-flex flex-column">
-                <div class="mb-3 mt-3 todo-text">
+                <div class="mb-3 mt-3" id="todo-text" contenteditable="false" onfocusout="nonEditable()">
                     {{ todo.description}}
                 </div>
-                <div class="todo-deadline">{{ todo.deadline }}</div>
+                <div class="todo-deadline" id="todo-date" contenteditable="false" onfocusout="nonEditable()" contenteditable="false">{{ todo.deadline }}</div>
             </div>
             <div class="ms-auto d-flex flex-row align-items-center">
-                <div class="todo-progress m-3 "> {{ todo.percent }}% </div>
-                <form method="POST" action="{% url 'todoList-indexDelete' todo.id %}">
-                    <!-- no idea what this token thing does but needed ... --> {% csrf_token %}
-                    <button type="submit" class=" m-3 btn btn-md btn-danger" value="Delete">Delete</button>
-                    <button type="button" class="m-3 btn btn-md btn-info" value="Edit">Edit</button>
+                <div class="todo-progress m-3" id="todo-percent" onfocusout="nonEditable()"> {{ todo.percent }}% </div>
+                <form action="{% url 'deleteOrEdit-todo' pk=todo.id %}">
+                    {% csrf_token %} <!-- apparently for security -->
+                    <button 
+                        type="submit" 
+                        class=" m-3 btn btn-md btn-danger" 
+                        value="Delete"
+                        formmethod="GET">Delete</button>
+                    <button 
+                        type="submit" 
+                        class="m-3 btn btn-md btn-info" 
+                        value="Edit"
+                        formmethod="POST"
+                        onclick="edit('{{ todo.id }}')">Edit</button>
                 </form>
             </div>
         </div>
@@ -39,3 +47,17 @@ Todo App
     {% endfor %}
 </div>
 {% endblock pageContent %}
+
+<script>
+    function edit(id){
+        document.getElementById(id).getElementById('todo-text').setAttribute("contenteditable", "true");
+        document.getElementById(id).getElementById('todo-percent').setAttribute("contenteditable", "true");
+        document.getElementById(id).getElementById('todo-date').setAttribute("contenteditable", "true");
+    }
+    
+    function nonEditable(id){
+        document.getElementById(id).getElementById('todo-text').setAttribute("contenteditable", "false");
+        document.getElementById(id).getElementById('todo-percent').setAttribute("contenteditable", "false");
+        document.getElementById(id).getElementById('todo-date').setAttribute("contenteditable", "false");
+    }
+</script>

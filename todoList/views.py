@@ -1,55 +1,44 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from todoList.models import todoItem
+from todoList.models import todoItem, addForm
+from django.contrib import messages
+from django import forms
 
 # Fetch all todoItem(s) from database
-data = todoItem.objects.all()
+def getTodos():
+    return todoItem.objects.all()
 
-# My views. 
+# My views.
 def index(request):
-    return render(request, 'todoList/index.html', {'todos': data})
+    context = {
+        'todos': getTodos()
+    }
+    return render(request, 'todoList/index.html', context)
 
+def delete_or_edit_todo(request, pk):
+    # GET -> deletes todo
+    if request.method == 'GET':
+        todoItem.objects.get(pk=pk).delete()
+    # POST -> updates it
+    elif request.method == 'POST':
+        todoItem.objects.get(pk=pk)
 
-# Methods in index
-
-# it deletes a todoItem from the db but it is not shown on the webpage ...
-def delete_todoItem(request, pk):
-    if request.method == "POST":
-        td = todoItem.objects.get(pk=pk)
-        td.delete()
-        return redirect('/')
-    
-    return render(request, '/', {'todos': data})
+    return render(request, 'todoList/index.html', {'todos': getTodos()})
 
 def how_to_edit_todo(request):
     return render(request, 'todoList/how_to_edit_todo.html')
 
 
 def add_todo(request):
+    if request.method == 'POST':
+        form = addForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'To-Do saved successfully!')
+        return render(request, 'todoList/add_todo.html', {'form': form})
+    
     return render(request, 'todoList/add_todo.html')
 
 
 def impressum(request):
     return render(request, 'todoList/impressum.html')
-
-
-
-# dummy todos (not using this anymore, some already in the database)
-# todos = [
-#     {
-#         'description': 'My first todo item!',
-#         'percentage': '44',
-#         'deadline': 'May 10, 2021, 4:55 a.m.'
-#     },
-#     {
-#         'description': 'My Second todo item!',
-#         'percentage': '77',
-#         'deadline': 'May 10, 2021, 5:06 a.m.'
-#     },
-#     {
-#         'description': 'My third todo item!',
-#         'percentage': '99',
-#         'deadline': 'May 10, 2021, 5:07 a.m.'
-#     }
-# ]
-

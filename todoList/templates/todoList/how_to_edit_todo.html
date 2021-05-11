@@ -28,10 +28,10 @@
                 <div class="mb-3 mt-3 todo-text" id="todo-text" contenteditable="false" onfocusout="nonEditable()">
                     Seite mit Bootstrap erstellen
                 </div>
-                <div class="todo-deadline">28.04.2021</div>
+                <div class="todo-deadline" id="todo-date" contenteditable="false" onfocusout="nonEditable()" contenteditable="false">28.04.2021</div>
             </div>
             <div class="ms-auto d-flex flex-row align-items-center">
-                <div class="todo-progress  m-3 "> 10% </div>
+                <div class="todo-progress  m-3 " id="todo-percent" onfocusout="nonEditable()"> 10% </div>
                 <button type="button" onclick="exampleDelete()" class=" m-3 btn btn-md btn-danger">Delete</button>
                 <button type="button" onclick="exampleEdit()" class="m-3 btn btn-md btn-info">Edit</button>
             </div>
@@ -55,10 +55,20 @@
         var y = document.getElementById('todo-text');
         y.setAttribute("contenteditable", "true");
         y.addEventListener('input', function() {});
+
+        var z = document.getElementById('todo-percent');
+        z.setAttribute("contenteditable", "true");
+        z.addEventListener('input', function() {});
+
+        var xy = document.getElementById('todo-date');
+        xy.setAttribute("contenteditable", "true");
+        xy.addEventListener('input', function() {});
     };
     // 2) Make text in toDo item "unditable" again when losing focus 
     function nonEditable(){
         document.getElementById('todo-text').setAttribute("contenteditable", "false");
+        document.getElementById('todo-percent').setAttribute("contenteditable", "false");
+        document.getElementById('todo-date').setAttribute("contenteditable", "false");
     }
 </script>
 {% endblock pageContent %}
