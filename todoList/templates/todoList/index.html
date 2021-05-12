@@ -23,39 +23,34 @@ Todo App
                 <div class="mb-3 mt-3" id="todo-text" contenteditable="false" onfocusout="nonEditable()">
                     {{ todo.description}}
                 </div>
-                <div class="todo-deadline" id="todo-date" contenteditable="false" onfocusout="nonEditable()" contenteditable="false">{{ todo.deadline }}</div>
+                <div class="todo-deadline" id="todo-date" contenteditable="false" onfocusout="nonEditable()"
+                    contenteditable="false">{{ todo.deadline }}</div>
             </div>
             <div class="ms-auto d-flex flex-row align-items-center">
                 <div class="todo-progress m-3" id="todo-percent" onfocusout="nonEditable()"> {{ todo.percent }}% </div>
-                <form action="{% url 'deleteOrEdit-todo' pk=todo.id %}">
-                    {% csrf_token %} <!-- apparently for security -->
-                    <button 
-                        type="submit" 
-                        class=" m-3 btn btn-md btn-danger" 
-                        value="Delete"
-                        formmethod="GET">Delete</button>
-                    <button 
-                        type="submit" 
-                        class="m-3 btn btn-md btn-info" 
-                        value="Edit"
-                        formmethod="POST"
-                        onclick="edit('{{ todo.id }}')">Edit</button>
+                <form>
+                    {% csrf_token %}
+                    <!-- apparently for security -->
+
+                    <a href="{% url 'delete-todo' pk=todo.id %}" class=" m-3 btn btn-md btn-danger">Delete</a>
+
+                    <a href="{% url 'edit-todo' pk=todo.id %}" class="m-3 btn btn-md btn-info">Edit</a>
                 </form>
             </div>
         </div>
     </div>
     {% endfor %}
+    {% endblock pageContent %}
 </div>
-{% endblock pageContent %}
 
 <script>
-    function edit(id){
+    function edit(id) {
         document.getElementById(id).getElementById('todo-text').setAttribute("contenteditable", "true");
         document.getElementById(id).getElementById('todo-percent').setAttribute("contenteditable", "true");
         document.getElementById(id).getElementById('todo-date').setAttribute("contenteditable", "true");
     }
-    
-    function nonEditable(id){
+
+    function nonEditable(id) {
         document.getElementById(id).getElementById('todo-text').setAttribute("contenteditable", "false");
         document.getElementById(id).getElementById('todo-percent').setAttribute("contenteditable", "false");
         document.getElementById(id).getElementById('todo-date').setAttribute("contenteditable", "false");

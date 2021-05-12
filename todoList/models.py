@@ -13,12 +13,6 @@ class todoItem(models.Model):
         return self.description
 
 class addForm(ModelForm):
-    # todo = forms.CharField()
     class Meta:
         model = todoItem
         fields = ['description', 'deadline', 'percent']
-
-
-# TODO:
-# - Still figure out who to edit, save and *delete todoItems from DB
-# - Format @param deadline and @param percent in @class todoItem

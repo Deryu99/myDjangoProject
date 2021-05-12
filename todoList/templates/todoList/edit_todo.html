@@ -1,0 +1,44 @@
+{% extends "todoList/base.html" %}
+
+<!-- title of the page-->
+{% block pageTitle %}
+Edit Todo
+{% endblock pageTitle %}
+
+{% block pageContent %}
+<div class="col right-col">
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <h1>What do you want to change?</h1>
+        </div>
+    </div>
+
+    <div class="flex-row align-items-center border p-4 add-todo">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="ToDo-Description" class="form-label">Description</label>
+            <input type="text" class="form-control" 
+                id="ToDo-Description" name="description" 
+                value="{{todo.description}}" required>
+            <div id="descriptionHelp" class="form-text">Edit description for your ToDo</div>
+          </div>
+          <div class="mb-3">
+            <label for="deadline" class="form-label">Deadline</label>
+            <input type="date" class="form-control" 
+                id="deadline" name="deadline" 
+                value="{{ todo.deadline }}" required>
+            <div id="date" class="form-text">Edit the deadline, actual deadline is: {{ todo.deadline }}</div>
+          </div>
+          <!-- percent box  -->
+          <div class="mb-3">
+            <label for="Percentage" class="form-label">Percentage</label>
+            <input type="number" class="form-control" 
+                id="Percentage" name="percent" 
+                max="100" min="0" required value="{{ todo.percent }}">
+            <div id="Percentage1" class="form-text">Type in the Percentage of the task you have done</div>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Todo!</button>
+        </form>
+</div>
+{% endblock pageContent %}

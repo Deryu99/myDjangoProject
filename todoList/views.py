@@ -15,15 +15,23 @@ def index(request):
     }
     return render(request, 'todoList/index.html', context)
 
-def delete_or_edit_todo(request, pk):
-    # GET -> deletes todo
-    if request.method == 'GET':
-        todoItem.objects.get(pk=pk).delete()
-    # POST -> updates it
-    elif request.method == 'POST':
-        todoItem.objects.get(pk=pk)
 
+def delete_todo(request, pk):
+    todoItem.objects.get(pk=pk).delete()
     return render(request, 'todoList/index.html', {'todos': getTodos()})
+
+
+def edit_todo(request, pk):
+    if request.method == 'POST':
+        td = todoItem.objects.get(pk=pk)
+        td.description = request.POST.get('description')
+        td.deadline = request.POST.get('deadline')
+        td.percent = request.POST.get('percent')
+        td.save()
+        return render(request, 'todoList/index.html', {'todos': getTodos()})
+
+    return render(request, 'todoList/edit_todo.html', {'todo': todoItem.objects.get(pk=pk)})
+
 
 def how_to_edit_todo(request):
     return render(request, 'todoList/how_to_edit_todo.html')
